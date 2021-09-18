@@ -57,7 +57,7 @@ class Notes with ChangeNotifier {
 
   Note openNote(String id) {
     return _items.firstWhere((note) => note.id == id, orElse: () {
-      return Note();
+      return Note(id: '', title: '', text: '');
     });
   }
 }

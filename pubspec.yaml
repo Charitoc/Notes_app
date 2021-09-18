@@ -65,11 +65,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Comfortaa
+    - family: Lato
       fonts:
-        - asset: fonts/Comfortaa-Regular.ttf
-        - asset: fonts/Comfortaa-Bold.ttf
-        - asset: fonts/Comfortaa-Light.ttf
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Bold.ttf
+        - asset: fonts/Lato-Light.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

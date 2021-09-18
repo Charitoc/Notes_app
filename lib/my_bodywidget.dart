@@ -24,7 +24,15 @@ class _MyBodywidgetState extends State<MyBodywidget> {
       itemCount: notes.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: notes[i],
-        child: NoteItem(),
+        child: Dismissible(
+          child: NoteItem(),
+          key: Key(notes[i].id),
+          onDismissed: (direction) {
+            setState(() {
+              notesData.deleteNote(notes[i].id);
+            });
+          },
+        ),
       ),
     );
   }

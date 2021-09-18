@@ -27,51 +27,63 @@ class _NoteItemState extends State<NoteItem> {
     final notes = Provider.of<Notes>(context);
     return Container(
       padding: EdgeInsets.all(10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        clipBehavior: Clip.hardEdge,
-        child: GridTile(
-          footer: GridTileBar(
-            leading: IconButton(
-              icon: Icon(note.isLocked ? Icons.lock : Icons.lock_open),
-              onPressed: () {
-                note.toggleLocked();
-                notes.saveNotesonDB();
-              },
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                notes.deleteNote(note.id);
-              },
-            ),
-            backgroundColor: Colors.black54,
-          ),
-          child: GestureDetector(
-            //onTap: () => openNote(context),
-            onTap: () => Navigator.of(context).pushNamed(
-              NoteDetailsScreen.routeName,
-              arguments: {'id': note.id},
-            ),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black54),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    note.title,
-                    style: TextStyle(fontWeight: FontWeight.w900),
-                    maxLines: 1,
+      child: Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            color: Colors.yellow[700],
+            child: GridTile(
+              footer: GridTileBar(
+                leading: IconButton(
+                  icon: Icon(
+                    note.isLocked ? Icons.lock : Icons.lock_open,
+                    color: Colors.black,
                   ),
-                  Text(
-                    note.text,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 7,
+                  onPressed: () {
+                    note.toggleLocked();
+                    notes.saveNotesonDB();
+                  },
+                ),
+                title: Text(''),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.black,
                   ),
-                ],
+                  onPressed: () {
+                    notes.deleteNote(note.id);
+                  },
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+              child: GestureDetector(
+                //onTap: () => openNote(context),
+                onTap: () => Navigator.of(context).pushNamed(
+                  NoteDetailsScreen.routeName,
+                  arguments: {'id': note.id},
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black54),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        note.title,
+                        style: TextStyle(fontWeight: FontWeight.w900),
+                        maxLines: 1,
+                      ),
+                      Text(
+                        note.text,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 7,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

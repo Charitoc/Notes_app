@@ -11,6 +11,12 @@ class NoteDetailsScreen extends StatefulWidget {
 
 class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
@@ -24,7 +30,7 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
     Function addNote = notesData.addNote;
 
     void popPage() {
-      if (note.id == null &&
+      if (note.id == '' &&
           (titleController.text != '' || textController.text != '')) {
         addNote(
           DateTime.now().toString(),
@@ -32,7 +38,11 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
           textController.text,
         );
         notesData.saveNotesonDB();
-      } else if (note.id != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Note added'),
+          duration: Duration(seconds: 2),
+        ));
+      } else if (note.id != '') {
         notesData.updateNote(
             note.id, titleController.text, textController.text);
         notesData.saveNotesonDB();
@@ -44,28 +54,25 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => popPage(),
-        ),
-        title: Text(note?.title ?? ""),
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              popPage();
+            }),
+        // title: Text(note?.title ?? ""),
       ),
+      backgroundColor: Theme.of(context).primaryColor,
       body: Column(
         children: [
-          TextField(
+          TextFormField(
             maxLength: 30,
             maxLines: 1,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            controller: titleController,
-          ),
-          TextFormField(
-            //maxLength: MediaQuery.of(context).size.width,
-            maxLines: 7,
-            cursorColor: Colors.black,
-            controller: textController,
+            style: TextStyle(color: Colors.white),
+            cursorColor: Colors.white,
             decoration: new InputDecoration(
+                fillColor: Theme.of(context).primaryColor,
+                filled: true,
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -73,6 +80,28 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
                 disabledBorder: InputBorder.none,
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                hintStyle: TextStyle(color: Colors.white30),
+                hintText: note.title != '' ? note.title : "Title"),
+            controller: titleController,
+          ),
+          TextFormField(
+            style: TextStyle(color: Colors.white),
+            cursorColor: Colors.white,
+            maxLines: 7,
+            controller: textController,
+            decoration: new InputDecoration(
+                fillColor: Theme.of(context).primaryColor,
+                filled: true,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                hintStyle: TextStyle(
+                  color: Colors.white30,
+                ),
                 hintText: note.text != '' ? note.text : "Note"),
           )
         ],

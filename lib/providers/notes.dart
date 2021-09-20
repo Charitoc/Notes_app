@@ -16,8 +16,7 @@ class Notes with ChangeNotifier {
   }
 
   Future<List<Note>> getNotesFromDB() async {
-    List<dynamic> notes = await notesDB.getAll();
-    List<Note> tempNotes = notes.map((e) => e as Note).toList();
+    List<Note> notes = await notesDB.getAllType<Note>();
     return tempNotes;
   }
 
